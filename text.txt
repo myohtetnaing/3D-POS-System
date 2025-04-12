@@ -1,0 +1,114 @@
+<?php
+require 'access_php/limit.php'; 
+require 'access_php/logout.php'; 
+require 'access_php/split-number.php'; 
+if($_SESSION['admin'] != $role){
+    header('location:index.php');
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Home Page</title>
+    <style>
+       
+    </style>
+</head>
+<body class="bg-info">
+<div class="container-fluid bg-success">
+    <div class="p-3">
+        
+        <form action="home.php" method="POST">
+            <a href="access_php/table.php" class="text text-white">Record</a>
+            <button type="submit" name="logout_btn" href="#" class="float-end btn btn-sm btn-warning">Logout</button>
+        </form>
+        
+    </div>
+    
+</div>
+    
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <h5><strong>Limitation</strong></h5><hr/>
+            <form action="home.php" method="POST">
+                <div class="form-group">
+                    <button type="submit" name="limit_btn" class="btn btn-primary btn-sm mb-2">Add value</button>
+                    <input type="text" name="limit_num" maxlength="6" onkeyup="numberonly(this)" class="form-control" placeholder="Enter limit value">
+                    <?php if($error_value): ?>
+                        
+                        <div>
+                            <span class="text-danger form-control mt-2"><?php error_reporting(0); echo $error_value; ?>
+                            <a href="" name="close" class="float-end text-decoration-none h5">&times;</a>
+                        </div>
+                    
+                    <?php endif ?>
+                    <?php if( !empty($display)): ?>
+                    <span class="text-danger form-control mt-2"><strong><?php error_reporting(0); echo $display;?> KYATS</strong></span>
+                    <?php endif ?>
+                    <button type="submit" name="limit_del_btn" class="btn btn-danger btn-sm mt-2">Delete value</button>                
+                </div>                
+            </form>     
+        </div>
+        <div class="col-md-6">
+            <div>
+                <table class="table table-borderd">
+                    <thead>
+                        <tr>
+                            <th>3D</th>
+                            <th>AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>738</td>
+                            <td>687953</td>
+                        </tr>
+                        <tr>
+                            <td>738</td>
+                            <td>687953</td>
+                        </tr>
+                        <tr>
+                            <td>738</td>
+                            <td>687953</td>
+                        </tr>
+                    </tbody>                  
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h5>Limitation</h5>
+            <form action="home.php" method="POST">
+                <div class="form-group">
+                    <label for="3d" class="text-white">Enter 3D Number</label>
+                    <input type="text" name="3dnumber" maxlength="3" onkeyup="numberonly(this)" id="3d" placeholder="Enter 3D number" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="3d" class="text-white">Enter amount</label>
+                    <input type="text" name="3damount" maxlength="6" onkeyup="numberonly(this)" id="3d" placeholder="Enter amount" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="3dreverse" id="r" name="reverse" value="reverse">
+                    <label for="r" class="text-white">Reverse(R)</label><br>
+                    <input type="text" name="3dreverseamount" maxlength="6" onkeyup="numberonly(this)" id="3d" placeholder="Enter limit value" class="form-control">
+                </div>
+                <button name="3dbtn" type="submit" class="btn btn-primary btn-sm mt-2">Add value</button>  
+            </form>
+        </div>
+    </div>
+</div>               
+    
+    <script>
+            function numberonly(input){
+                var num = /[^0-9]/gi;
+                input.value = input.value.replace(num,"");
+            }
+    </script>
+</body>
+</html> 
