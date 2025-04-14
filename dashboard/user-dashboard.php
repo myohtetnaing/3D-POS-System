@@ -3,7 +3,7 @@
     require '../link/css-link.php'; 
     require '../link/js-link.php';
     require 'user.php'; 
-    if(!isset($_SESSION['$user_name'])){
+    if(!isset($_SESSION['$userName'])){
         header('location:../index.php');
     }
 ?>
@@ -14,7 +14,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Page</title>
+    <title>user-dashboard</title>
     <?php dashboardCssLink() ?>
     <?php require '../access_php/custom-css.php'; user_dashboard();?>
 </head>
@@ -22,8 +22,8 @@
 <div class="container-fluid bg-success">
     <div class="p-3">
         
-        <form action="../access_php/logout.php" method="POST">
-            <span class="text text-white user_name"><i class="fa-solid fa-user"></i> <?php echo $_SESSION['$user_name']; ?></span>
+        <form action="../config/logout.php" method="POST">
+            <span class="text text-white user_name"><i class="fa-solid fa-user"></i> <?php echo  $_SESSION['$userName']; ?></span>
             <a href="../access_php/total-record.php">Total Record</a>
             <a href="../access_php/limitation-record.php">Limation Record</a>
             <button type="submit" onclick="return confirm('Are you logout account?')" href="#" class="float-end btn btn-sm btn-warning">Logout</button>
@@ -36,29 +36,40 @@
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-3">
-            <h5 class="title-limitation">Limitation</h5>
+            <h5 class="title-limitation">CLOSE NUMBERS</h5>
             
-                <div class="form-group mt-4">
+                <div class="form-group mt-3">
                     <form action="user-dashboard.php" method="POST">
-                        <button type="submit" name="limit_btn" class="btn btn-primary btn-sm mb-2 text-uppercase">Add value</button>
-                        <input type="text" required="required" id ="limit"  name="limit_num" maxlength="7" onkeyup="numberonly(this)" class="limit-input">
-                        <label class="limit-label" for="limit">Enter limitation value</label>
+                        <button type="submit" name="closeNumberBtn" class="btn btn-primary btn-sm mb-2">Close number</button>
+                        <input type="text" required="required" id ="closeNumber"  name="closeNumberInput" maxlength="3" onkeyup="numberonly(this)" class="limit-input">
+                        <label class="limit-label" for="closeNumber">Enter close number</label>
                         
-                        <?php if(!empty($exit_value)): ?>
+                
+                        <?php if( !empty($closeNumberFromDb)): ?>
+                            <?php
+                                $closeNumbersSelected =mysqli_query($db,'SELECT * FROM close_table');
+                                    foreach($closeNumbersSelected as $data){      
+                            ?>
+                            <tr>
+                                <span class="text-danger text-center form-control mt-2">
+                                    <strong class="letter-spacing"><?php echo $data['number'];?></strong>
+                                </span>
+                            </tr>
+                        <?php   }?>
+                        <?php endif ?>
+
+                        <?php if(!empty($exitClosedNumber)): ?>
                         <div>
                             <span class="text-danger form-control mt-2"> 
-                                <?php error_reporting(0); echo $exit_value; ?>
+                                <?php error_reporting(0); echo $exitClosedNumber; ?>
                                 <a href="" name="close" class="float-end text-decoration-none h5">&times;</a>
                             </span>
                         </div>
                     
                         <?php endif ?>
-                        <?php if( !empty($display)): ?>
-                        <span class="text-danger text-center form-control mt-2"><strong class="letter-spacing"><?php error_reporting(0); echo $display;?> KYATS</strong></span>
-                        <?php endif ?>
                     </form>
                     <form action="user-dashboard.php" method="POST">
-                        <button type="submit" name="limit_del_btn" class="btn btn-danger btn-sm mt-2">Delete value</button>                
+                        <button type="submit" name="closeNumberDeleteBtn" class="btn btn-danger btn-sm mt-2">Delete</button>                
                     </form>
                     
                 </div>                
@@ -101,12 +112,6 @@
                    
                     <input type="checkbox" name="3dreverse" id="r" name="reverse" value="show">
                     <label for="r" class="text-uppercase reverse">Reverse(R)</label><br> 
-                </div>
-                
-                
-                <div class="form-group insert-form-group mt-2" id="show-hide" style="display:none">               
-                    <input type="text" id="reverse_amount" class="insert-input" name="3dreverseamount" maxlength="6" onkeyup="numberonly(this)">
-                    <label for="reverse_amount" class="text-uppercase insert-label">Enter reverse value</label>
                 </div>
                
                 <button type="submit" id="mybtn" name="3dbtn" class="mt-3 btn btn-primary btn-sm mt-2 text-uppercase">Add value</button>  

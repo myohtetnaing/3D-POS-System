@@ -1,37 +1,31 @@
 <?php 
 require '../config/db-connect.php';
 error_reporting(0);
-$btn = $_REQUEST['limit_btn'];
-$num = $_REQUEST['limit_num'];
-$del_btn= $_REQUEST['limit_del_btn'];
+
+$closeNumber = $_REQUEST['closeNumberInput'];
 $max_num = 9999999;
 $min_num = 1000;
 
-$qry = mysqli_query($db,"SELECT * FROM limitation_table");
-foreach($qry as $data){
-    $display = $data['limitation'];
+$closeNumbers = mysqli_query($db,"SELECT * FROM close_table");
+foreach($closeNumbers as $data){
+    $closeNumberFromDb = $data['number'];
 }
 
-if(isset($btn)){
-    if($num >= $min_num && $num < $max_num && $num != '' && $display == ''){
-        mysqli_query($db,"INSERT INTO limitation_table (limitation) VALUES('$num')");
-        header('location:user-dashboard.php');
+if(isset($_REQUEST['closeNumberBtn'])){
+    if($closeNumberFromDb == $closeNumber){
+        $exitClosedNumber = "exit closed number!";
+    }else{
+        if(strlen($closeNumber)=== 3 ){
+            mysqli_query($db,"INSERT INTO close_table (number) VALUES($closeNumber)");
+            header('location:user-dashboard.php');
+        }
     }
-}
-if(isset($btn)){
-    if(!empty($display) && !empty($num)){
-        $exit_value = "Delete previous value!";
-            
-    }
-    if($num < $min_num){
-        $exit_value = $num.' is less than '.$min_num;
-       
-    }
+   
 }
 
 
-if(isset($del_btn)){
-    mysqli_query($db,"DELETE FROM `limitation_table` WHERE limitation = $display ");
+if(isset($_REQUEST['closeNumberDeleteBtn'])){
+    mysqli_query($db,"DELETE FROM `close_table` WHERE number = $closeNumberFromDb ");
     header('location:user-dashboard.php');
 }
 
