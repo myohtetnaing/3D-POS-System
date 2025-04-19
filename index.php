@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>index-page</title> 
     <!-- CSS Link -->
-    <?php require './access_php/custom-css.php'; index(); ?>
+    <?php require './asset/customize/custom-css.php'; index(); ?>
     <!-- css link that is use php -->
     <?php IndexPageCssLink(); ?>
     

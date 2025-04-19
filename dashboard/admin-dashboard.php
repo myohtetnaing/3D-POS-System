@@ -18,8 +18,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admin-dashboard</title>
-    <?php include '../access_php/custom-css.php'; admin_css_dashboard();  ?>
-    <?php include '../access_php/custom-js.php'; admin_js_dashboard();  ?>  
+    <?php include '../asset/customize/custom-css.php'; admin_css_dashboard();  ?>
+    <?php include '../asset/customize/custom-js.php'; admin_js_dashboard();  ?>  
     <?php dashboardCssLink() ?>
 </head>
 <body class="bg-info">
